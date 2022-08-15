@@ -6,6 +6,12 @@ body,
   padding: 0;
 }
 
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 html.dark {
   background: #121212;
 }
