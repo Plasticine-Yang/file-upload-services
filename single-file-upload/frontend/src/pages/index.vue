@@ -1,50 +1,23 @@
 <script setup lang="ts">
-const name = $ref('')
+import { uploadFile } from '~/api'
 
-const router = useRouter()
-const go = () => {
-  if (name)
-    router.push(`/hi/${encodeURIComponent(name)}`)
+// 文件上传表单元素
+const uploadFileRef = ref<HTMLInputElement>()
+
+const handleUploadFileBtnClick = () => {
+  // 没选择文件则不调用接口
+  if (!uploadFileRef.value?.files?.length) return
+
+  // 获取选择的第一个文件并调用接口上传
+  const file = uploadFileRef.value.files[0]
+  uploadFile('image', file)
 }
 </script>
 
 <template>
+  <!-- 文件上传容器 -->
   <div>
-    <div i-carbon-campsite text-4xl inline-block />
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse-lite" target="_blank">
-        Vitesse Lite
-      </a>
-    </p>
-    <p>
-      <em text-sm op75>Opinionated Vite Starter Template</em>
-    </p>
-
-    <div py-4 />
-
-    <input
-      id="input"
-      v-model="name"
-      placeholder="What's your name?"
-      type="text"
-      autocomplete="false"
-      p="x-4 y-2"
-      w="250px"
-      text="center"
-      bg="transparent"
-      border="~ rounded gray-200 dark:gray-700"
-      outline="none active:none"
-      @keydown.enter="go"
-    >
-
-    <div>
-      <button
-        class="m-3 text-sm btn"
-        :disabled="!name"
-        @click="go"
-      >
-        Go
-      </button>
-    </div>
+    <input type="file" accept="image/*" ref="uploadFileRef" />
+    <button @click="handleUploadFileBtnClick">上传</button>
   </div>
 </template>
