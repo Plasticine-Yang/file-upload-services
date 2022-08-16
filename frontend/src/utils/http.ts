@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { PREFIX } from '~/constants'
 
 export const request = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: PREFIX,
   timeout: 10000,
 })
