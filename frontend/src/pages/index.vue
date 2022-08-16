@@ -10,7 +10,7 @@ const handleUploadFileBtnClick = () => {
 
   // 获取选择的第一个文件并调用接口上传
   const file = uploadFileRef.value.files[0]
-  singleUploadFile('image', file)
+  singleUploadFile('file', file)
 }
 </script>
 

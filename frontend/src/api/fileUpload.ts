@@ -3,12 +3,12 @@ import { request } from '~/utils'
 
 /**
  * @description 上传文件 -- 会转成 formData 上传
- * @param key formData 的 key 不指定则默认为 file
+ * @param fieldName formData 的 字段名 不指定则默认为 file
  * @param file input 中选择的文件
  */
-export const singleUploadFile = (key: string, file: File) => {
+export const singleUploadFile = (fieldName: string, file: File) => {
   const formData = new FormData()
-  formData.set(key, file)
+  formData.set(fieldName, file)
   request.post(FileUploadAPI.SINGLE_UPLOAD, formData, {
     // 计算上传进度
     onUploadProgress: (progressEvent: ProgressEvent) => {
