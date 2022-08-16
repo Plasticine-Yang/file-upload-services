@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { PREFIX } from '~/constants'
+import { BASE_URL, PREFIX } from '~/constants'
 
 export const request = axios.create({
-  baseURL: PREFIX,
+  baseURL: `${BASE_URL}${PREFIX}`,
   timeout: 10000,
 })

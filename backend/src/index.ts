@@ -1,3 +1,4 @@
+import cors from '@koa/cors'
 import Koa from 'koa'
 import serve from 'koa-static'
 import { PORT, SERVER_URL, UPLOADED_DIR } from './constants'
@@ -14,6 +15,9 @@ const setupApp = (app: Koa) => {
 
   // 路由
   app.use(router.routes())
+
+  // 后端配置 cors 解决跨域问题
+  app.use(cors())
 
   // 开启服务监听
   app.listen(PORT, () => {
