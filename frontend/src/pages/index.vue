@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { uploadFile } from '~/api'
+import { singleUploadFile } from '~/api'
 
 // 文件上传表单元素
 const uploadFileRef = ref<HTMLInputElement>()
@@ -10,7 +10,7 @@ const handleUploadFileBtnClick = () => {
 
   // 获取选择的第一个文件并调用接口上传
   const file = uploadFileRef.value.files[0]
-  uploadFile('image', file)
+  singleUploadFile('image', file)
 }
 </script>
 
