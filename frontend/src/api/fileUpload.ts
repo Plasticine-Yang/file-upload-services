@@ -1,22 +1,40 @@
 import { FileUploadAPI } from '~/constants'
 import { request } from '~/utils'
 
-const baseUploadFile = (fieldName: string, fileOrFiles: File | FileList) => {
+type UploadType = 'single' | 'multiple' | 'directory'
+
+const baseUploadFile = (
+  fieldName: string,
+  fileOrFiles: File | FileList,
+  uploadType: UploadType,
+) => {
   const formData = new FormData()
   let uploadUrl = ''
 
-  if (fileOrFiles instanceof File) {
-    // 单文件上传
-    formData.set(fieldName, fileOrFiles)
-    uploadUrl = FileUploadAPI.SINGLE_UPLOAD
-  } else if (fileOrFiles instanceof FileList) {
-    // 多文件上传
-    // 将 files 类数组转成数组方便遍历
-    const fileArr = Array.from(fileOrFiles)
-    fileArr.forEach(file => {
-      formData.append(fieldName, file)
-    })
-    uploadUrl = FileUploadAPI.MULTIPLE_UPLOAD
+  switch (uploadType) {
+    case 'single':
+      // 单文件上传
+      formData.set(fieldName, fileOrFiles as File)
+      uploadUrl = FileUploadAPI.SINGLE_UPLOAD
+      break
+    case 'multiple':
+      // 多文件上传
+      // 将 files 类数组转成数组方便遍历
+      Array.from(fileOrFiles as FileList).forEach(file => {
+        formData.append(fieldName, file)
+      })
+      uploadUrl = FileUploadAPI.MULTIPLE_UPLOAD
+      break
+    case 'directory':
+      Array.from(fileOrFiles as FileList).forEach(file => {
+        formData.append(
+          fieldName,
+          file,
+          file.webkitRelativePath.replace(/\//g, '@'),
+        )
+      })
+      uploadUrl = FileUploadAPI.DIRECTORY_UPLOAD
+      break
   }
 
   uploadUrl !== '' &&
@@ -37,7 +55,7 @@ const baseUploadFile = (fieldName: string, fileOrFiles: File | FileList) => {
  * @param file input 中选择的文件
  */
 export const singleUploadFile = (fieldName: string, file: File) => {
-  baseUploadFile(fieldName, file)
+  baseUploadFile(fieldName, file, 'single')
   console.log('调用单文件上传API')
 }
 
@@ -47,6 +65,14 @@ export const singleUploadFile = (fieldName: string, file: File) => {
  * @param files input 中选择的多个文件
  */
 export const multipleUploadFile = (fieldName: string, files: FileList) => {
-  baseUploadFile(fieldName, files)
+  baseUploadFile(fieldName, files, 'multiple')
   console.log('调用多文件上传API')
+}
+
+/**
+ * @description 目录上传
+ */
+export const uploadDirectory = (fieldName: string, files: FileList) => {
+  baseUploadFile(fieldName, files, 'directory')
+  console.log('调用目录上传API')
 }

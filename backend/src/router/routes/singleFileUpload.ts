@@ -29,4 +29,3 @@ export const singleFileUpload: RegisterRoute = router => {
     uploadMulter.single('file'),
   )
 }
-
