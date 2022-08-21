@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { multipleUploadFile, singleUploadFile, uploadDirectory } from '~/api'
+import { useFileUploader } from '~/hooks'
 
 interface Props {
   // 是否多文件上传
@@ -11,7 +11,7 @@ interface Props {
 }
 
 // withDefaults 可以解决类型声明 props 类型的时候无法声明默认值的问题
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   // 默认单文件上传
   multiple: false,
   // 默认只支持上传图片
@@ -22,26 +22,11 @@ withDefaults(defineProps<Props>(), {
 
 // 文件上传表单元素
 const uploadFileRef = ref<HTMLInputElement>()
+const uploadFile = useFileUploader({ directory: props.webkitdirectory })
 
 const handleInputFileConfirm = () => {
-  // 没选择文件则不调用接口
-  if (!uploadFileRef.value?.files?.length) return
-
-  // 开启目录上传的话则只调用目录上传接口
-  if (uploadFileRef.value.webkitdirectory) {
-    const files = uploadFileRef.value.files
-    uploadDirectory('file', files)
-    return
-  }
-
-  // 根据是否有 multiple 属性来决定调用哪个接口
-  if (uploadFileRef.value.multiple) {
-    const files = uploadFileRef.value.files
-    multipleUploadFile('file', files)
-  } else {
-    // 获取选择的第一个文件并调用接口上传
-    const file = uploadFileRef.value.files[0]
-    singleUploadFile('file', file)
+  if (uploadFileRef.value?.files) {
+    uploadFile(uploadFileRef.value?.files)
   }
 }
 </script>
