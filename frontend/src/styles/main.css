@@ -12,6 +12,31 @@ body,
   align-items: center;
 }
 
+html {
+  background-color: #f2ebe9;
+}
+
+a {
+  padding: 10px 30px;
+  background-color: #92b4ec;
+  color: #ffffff;
+  border-radius: 12px;
+  transition: background-color 0.5s ease;
+}
+
+a:hover {
+  background-color: rgba(146, 180, 236, 0.5);
+}
+
 html.dark {
   background: #121212;
+}
+
+html.dark a {
+  background-color: #495c83;
+  color: #c8b6e2;
+}
+
+html.dark a:hover {
+  background-color: #7a86b6;
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts"></script>
 
 <template>
-  <FileUploader webkitdirectory />
+  <router-link to="file-uploader-demo">文件上传</router-link>
 </template>
+
