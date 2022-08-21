@@ -11,9 +11,9 @@ export default function useFileUploader(options?: Options) {
   const directory = options?.directory ?? false
   const fieldName = options?.fieldName ?? 'file'
 
-  return (files: FileList) => {
+  return (files: FileList | undefined | null) => {
     // 没选择文件则不调用接口
-    if (files.length === 0) return
+    if (!files || files.length === 0) return
 
     // 开启目录上传的话则只调用目录上传接口
     if (directory) {
